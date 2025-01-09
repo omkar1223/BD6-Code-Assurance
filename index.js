@@ -15,6 +15,15 @@ function validateUser(user) {
   }
 }
 
+function validateBook(book) {
+  if (!book.title || typeof book.title !== "string") {
+    return "Title is required and should be string type";
+  }
+  if (!book.author || typeof book.author !== "string") {
+    return "Author is required and should be string type";
+  }
+}
+
 app.post("/v1/api/users/new", async (req, res) => {
   let error = validateUser(req.body);
   if (error) {
@@ -26,13 +35,13 @@ app.post("/v1/api/users/new", async (req, res) => {
 });
 
 app.post("/v1/api/books/new", async (req, res) => {
-  let error = validateUser(req.body);
+  let error = validateBook(req.body);
   if (error) {
     return res.status(400).send(error);
   }
-  let newUser = { id: users.length + 1, ...req.body };
-  users.push(newUser);
-  res.status(200).json(newUser);
+  let newBook = { id: books.length + 1, ...req.body };
+  users.push(newBook);
+  res.status(200).json(newBook);
 });
 
 module.exports = { app };
